@@ -15,22 +15,35 @@ public class TrainConsistManagementApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // Create list of bogies
-        List<Bogie> bogies = new ArrayList<>();
+        // Create LinkedList for ordered consist
+        LinkedList<String> train = new LinkedList<>();
 
         // Add bogies
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 60));
-        bogies.add(new Bogie("First Class", 40));
+        train.add("Engine");
+        train.add("Sleeper");
+        train.add("AC");
+        train.add("Cargo");
+        train.add("Guard");
 
-        // Sort using Comparator (by capacity)
-        bogies.sort(Comparator.comparingInt(b -> b.capacity));
+        System.out.println("\nInitial Train Consist:");
+        System.out.println(train);
 
-        // Display sorted bogies
-        System.out.println("\nBogies Sorted by Capacity:");
+        // Insert Pantry Car at position 2 (index 1)
+        train.add(1, "Pantry Car");
 
-        for (Bogie b : bogies) {
-            System.out.println(b.name + " -> " + b.capacity);
-        }
+        System.out.println("\nAfter Adding Pantry Car:");
+        System.out.println(train);
+
+        // Remove first and last bogie
+        train.removeFirst();
+        train.removeLast();
+
+        System.out.println("\nAfter Removing First and Last Bogie:");
+        System.out.println(train);
+
+        // Final ordered consist
+        System.out.println("\nFinal Train Consist:");
+        System.out.println(train);
     }
+
 }
