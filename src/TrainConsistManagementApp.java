@@ -5,35 +5,23 @@ public class TrainConsistManagementApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // Create LinkedList for ordered consist
-        LinkedList<String> train = new LinkedList<>();
+        // Create HashMap for bogie → capacity
+        Map<String, Integer> bogieCapacity = new HashMap<>();
 
-        // Add bogies
-        train.add("Engine");
-        train.add("Sleeper");
-        train.add("AC");
-        train.add("Cargo");
-        train.add("Guard");
+        // Insert bogie capacities
+        bogieCapacity.put("Sleeper", 72);
+        bogieCapacity.put("AC Chair", 60);
+        bogieCapacity.put("First Class", 40);
+        bogieCapacity.put("Cargo", 100);
 
-        System.out.println("\nInitial Train Consist:");
-        System.out.println(train);
+        // Display bogie capacities
+        System.out.println("\nBogie Capacity Details:");
 
-        // Insert Pantry Car at position 2 (index 1)
-        train.add(1, "Pantry Car");
+        for (Map.Entry<String, Integer> entry : bogieCapacity.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
 
-        System.out.println("\nAfter Adding Pantry Car:");
-        System.out.println(train);
-
-        // Remove first and last bogie
-        train.removeFirst();
-        train.removeLast();
-
-        System.out.println("\nAfter Removing First and Last Bogie:");
-        System.out.println(train);
-
-        // Final ordered consist
-        System.out.println("\nFinal Train Consist:");
-        System.out.println(train);
+        // Example lookup
+        System.out.println("\nCapacity of Sleeper: " + bogieCapacity.get("Sleeper"));
     }
-
 }
