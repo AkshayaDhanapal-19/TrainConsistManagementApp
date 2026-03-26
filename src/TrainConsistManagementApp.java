@@ -33,5 +33,4 @@ public class TrainConsistManagementApp {
             System.out.println(b.name + " -> " + b.capacity);
         }
     }
-
 }
