@@ -15,6 +15,32 @@ class Bogie {
     }
 }
 
+class Bogie {
+    String name;
+    int capacity;
+    String type;
+
+    Bogie(String name, int capacity, String type) {
+
+        // Validation
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Bogie name cannot be empty");
+        }
+
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Capacity must be positive");
+        }
+
+        if (!type.equals("Passenger") && !type.equals("Goods")) {
+            throw new IllegalArgumentException("Invalid bogie type");
+        }
+
+        this.name = name;
+        this.capacity = capacity;
+        this.type = type;
+    }
+}
+
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
@@ -44,33 +70,24 @@ public class TrainConsistManagementApp {
         // UC7: Comparator Sorting
         List<Bogie> bogies = new ArrayList<>();
 
-        // 🔹 ArrayList Performance
-        List<String> arrayList = new ArrayList<>();
-        long start1 = System.currentTimeMillis();
+        try {
+            // Valid bogies
+            bogies.add(new Bogie("Sleeper", 72, "Passenger"));
+            bogies.add(new Bogie("Cargo", 100, "Goods"));
 
-        for (int i = 0; i < n; i++) {
-            arrayList.add("Bogie " + i);
+            // Invalid bogies
+            bogies.add(new Bogie("", 50, "Passenger"));     // empty name
+            bogies.add(new Bogie("AC Chair", -10, "Passenger")); // negative capacity
+            bogies.add(new Bogie("Test", 40, "Unknown"));   // invalid type
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("\nError: " + e.getMessage());
         }
 
-        long end1 = System.currentTimeMillis();
-        System.out.println("\nArrayList Time: " + (end1 - start1) + " ms");
-
-        // 🔹 LinkedList Performance
-        List<String> linkedList = new LinkedList<>();
-        long start2 = System.currentTimeMillis();
-
-        for (int i = 0; i < n; i++) {
-            linkedList.add("Bogie " + i);
-        }
-
-        long end2 = System.currentTimeMillis();
-        System.out.println("LinkedList Time: " + (end2 - start2) + " ms");
-
-        // Comparison Result
-        if ((end1 - start1) < (end2 - start2)) {
-            System.out.println("\nArrayList is faster for insertion.");
-        } else {
-            System.out.println("\nLinkedList is faster for insertion.");
+        // Display valid bogies
+        System.out.println("\nValid Bogies:");
+        for (Bogie b : bogies) {
+            System.out.println(b.name + " -> " + b.capacity + " (" + b.type + ")");
         }
         System.out.println("\nLogs saved in train_log.txt");
         bogies.sort((a, b) -> b.capacity - a.capacity);
