@@ -1,5 +1,5 @@
 import java.util.*;
-import java.util.stream.*;
+import java.io.*;
 
 class Bogie {
     String name;
@@ -16,35 +16,34 @@ public class TrainConsistManagementApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // Create bogie list
         List<Bogie> bogies = new ArrayList<>();
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 60));
         bogies.add(new Bogie("First Class", 40));
-        bogies.add(new Bogie("Cargo", 100));
 
-        // 🔍 Search for a bogie
-        String search = "Sleeper";
-        Optional<Bogie> result = bogies.stream()
-                .filter(b -> b.name.equalsIgnoreCase(search))
-                .findFirst();
+        String fileName = "train_data.txt";
 
-        System.out.println("\nSearch Result:");
-        if (result.isPresent()) {
-            System.out.println(result.get().name + " found with capacity " + result.get().capacity);
-        } else {
-            System.out.println("Bogie not found");
+        // 💾 Save to file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            for (Bogie b : bogies) {
+                writer.write(b.name + "," + b.capacity);
+                writer.newLine();
+            }
+            System.out.println("\nData saved to file.");
+        } catch (IOException e) {
+            System.out.println("Error writing file.");
         }
 
-        // 🎯 Filter high-capacity bogies (> 60)
-        System.out.println("\nHigh Capacity Bogies (>60):");
-
-        List<Bogie> filtered = bogies.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
-
-        for (Bogie b : filtered) {
-            System.out.println(b.name + " -> " + b.capacity);
+        // 📂 Read from file
+        System.out.println("\nReading from file:");
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                System.out.println(data[0] + " -> " + data[1]);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading file.");
         }
     }
 }
