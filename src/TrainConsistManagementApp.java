@@ -1,5 +1,4 @@
 import java.util.*;
-import java.io.*;
 
 
 import java.util.ArrayList;
@@ -9,6 +8,9 @@ class Bogie {
     int capacity;
 
     Bogie(String name, int capacity) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Capacity must be positive");
+        }
         this.name = name;
         this.capacity = capacity;
     }
@@ -40,33 +42,23 @@ public class TrainConsistManagementApp {
 
         // UC7: Comparator Sorting
         List<Bogie> bogies = new ArrayList<>();
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 60));
-        bogies.add(new Bogie("First Class", 40));
 
-        String fileName = "train_data.txt";
+        try {
+            // Valid bogies
+            bogies.add(new Bogie("Sleeper", 72));
+            bogies.add(new Bogie("AC Chair", 60));
 
-        // 💾 Save to file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            for (Bogie b : bogies) {
-                writer.write(b.name + "," + b.capacity);
-                writer.newLine();
-            }
-            System.out.println("\nData saved to file.");
-        } catch (IOException e) {
-            System.out.println("Error writing file.");
+            // Invalid bogie (will throw exception)
+            bogies.add(new Bogie("Faulty", -10));
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("\nError: " + e.getMessage());
         }
 
-        // 📂 Read from file
-        System.out.println("\nReading from file:");
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
-                System.out.println(data[0] + " -> " + data[1]);
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading file.");
+        // Display valid bogies
+        System.out.println("\nValid Bogies:");
+        for (Bogie b : bogies) {
+            System.out.println(b.name + " -> " + b.capacity);
         }
 
         bogies.sort((a, b) -> b.capacity - a.capacity);
