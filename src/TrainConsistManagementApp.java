@@ -1,56 +1,40 @@
 import java.util.*;
-import java.io.*;
-import java.time.LocalDateTime;
-
-class Bogie {
-    String name;
-    int capacity;
-
-    Bogie(String name, int capacity) {
-        this.name = name;
-        this.capacity = capacity;
-    }
-}
 
 public class TrainConsistManagementApp {
-
-    // Log file
-    static String logFile = "train_log.txt";
-
-    // Logging method
-    public static void log(String message) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
-            writer.write(LocalDateTime.now() + " - " + message);
-            writer.newLine();
-        } catch (IOException e) {
-            System.out.println("Logging failed");
-        }
-    }
 
     public static void main(String[] args) {
 
         System.out.println("=== Train Consist Management App ===");
 
-        List<Bogie> bogies = new ArrayList<>();
+        int n = 100000;
 
-        // Add bogies + log
-        bogies.add(new Bogie("Sleeper", 72));
-        log("Added Sleeper bogie");
+        // 🔹 ArrayList Performance
+        List<String> arrayList = new ArrayList<>();
+        long start1 = System.currentTimeMillis();
 
-        bogies.add(new Bogie("AC Chair", 60));
-        log("Added AC Chair bogie");
-
-        bogies.add(new Bogie("Cargo", 100));
-        log("Added Cargo bogie");
-
-        // Display bogies
-        System.out.println("\nCurrent Bogies:");
-        for (Bogie b : bogies) {
-            System.out.println(b.name + " -> " + b.capacity);
+        for (int i = 0; i < n; i++) {
+            arrayList.add("Bogie " + i);
         }
 
-        log("Displayed all bogies");
+        long end1 = System.currentTimeMillis();
+        System.out.println("\nArrayList Time: " + (end1 - start1) + " ms");
 
-        System.out.println("\nLogs saved in train_log.txt");
+        // 🔹 LinkedList Performance
+        List<String> linkedList = new LinkedList<>();
+        long start2 = System.currentTimeMillis();
+
+        for (int i = 0; i < n; i++) {
+            linkedList.add("Bogie " + i);
+        }
+
+        long end2 = System.currentTimeMillis();
+        System.out.println("LinkedList Time: " + (end2 - start2) + " ms");
+
+        // Comparison Result
+        if ((end1 - start1) < (end2 - start2)) {
+            System.out.println("\nArrayList is faster for insertion.");
+        } else {
+            System.out.println("\nLinkedList is faster for insertion.");
+        }
     }
 }
