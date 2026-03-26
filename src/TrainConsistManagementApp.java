@@ -1,27 +1,57 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+class Bogie {
+    String name;
+    int capacity;
+
+    Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+}
+
 public class TrainConsistManagementApp {
     public static void main(String[] args) {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // Create HashMap for bogie → capacity
-        Map<String, Integer> bogieCapacity = new HashMap<>();
+        // UC5: LinkedHashSet (Ordered Unique Train)
+        LinkedHashSet<String> train = new LinkedHashSet<>();
+        train.add("Engine");
+        train.add("Sleeper");
+        train.add("AC Chair");
+        train.add("Cargo");
+        train.add("Guard");
 
-        // Insert bogie capacities
-        bogieCapacity.put("Sleeper", 72);
-        bogieCapacity.put("AC Chair", 60);
-        bogieCapacity.put("First Class", 40);
-        bogieCapacity.put("Cargo", 100);
+        System.out.println("\nTrain Formation:");
+        System.out.println(train);
 
-        // Display bogie capacities
-        System.out.println("\nBogie Capacity Details:");
+        // UC6: HashMap (Capacity Mapping)
+        Map<String, Integer> capacityMap = new HashMap<>();
+        capacityMap.put("Sleeper", 72);
+        capacityMap.put("AC Chair", 60);
+        capacityMap.put("First Class", 40);
+        capacityMap.put("Cargo", 100);
 
-        for (Map.Entry<String, Integer> entry : bogieCapacity.entrySet()) {
-            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        // UC7: Comparator Sorting
+        List<Bogie> bogies = new ArrayList<>();
+        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("AC Chair", 60));
+        bogies.add(new Bogie("First Class", 40));
+
+        bogies.sort((a, b) -> b.capacity - a.capacity);
+
+        System.out.println("\nSorted Bogies (High to Low Capacity):");
+        for (Bogie b : bogies) {
+            System.out.println(b.name + " -> " + b.capacity);
         }
 
-        // Example lookup
-        System.out.println("\nCapacity of Sleeper: " + bogieCapacity.get("Sleeper"));
+        // UC8: Total Capacity Calculation
+        int totalCapacity = 0;
+        for (int cap : capacityMap.values()) {
+            totalCapacity += cap;
+        }
+
+        System.out.println("\nTotal Train Capacity: " + totalCapacity);
     }
 }
