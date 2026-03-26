@@ -1,4 +1,6 @@
 import java.util.*;
+import java.io.*;
+import java.time.LocalDateTime;
 
 
 import java.util.ArrayList;
@@ -8,15 +10,26 @@ class Bogie {
     int capacity;
 
     Bogie(String name, int capacity) {
-        if (capacity <= 0) {
-            throw new IllegalArgumentException("Capacity must be positive");
-        }
         this.name = name;
         this.capacity = capacity;
     }
 }
 
 public class TrainConsistManagementApp {
+
+    // Log file
+    static String logFile = "train_log.txt";
+
+    // Logging method
+    public static void log(String message) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
+            writer.write(LocalDateTime.now() + " - " + message);
+            writer.newLine();
+        } catch (IOException e) {
+            System.out.println("Logging failed");
+        }
+    }
+
     public static void main(String[] args) {
 
         System.out.println("=== Train Consist Management App ===");
@@ -43,24 +56,25 @@ public class TrainConsistManagementApp {
         // UC7: Comparator Sorting
         List<Bogie> bogies = new ArrayList<>();
 
-        try {
-            // Valid bogies
-            bogies.add(new Bogie("Sleeper", 72));
-            bogies.add(new Bogie("AC Chair", 60));
+        // Add bogies + log
+        bogies.add(new Bogie("Sleeper", 72));
+        log("Added Sleeper bogie");
 
-            // Invalid bogie (will throw exception)
-            bogies.add(new Bogie("Faulty", -10));
+        bogies.add(new Bogie("AC Chair", 60));
+        log("Added AC Chair bogie");
 
-        } catch (IllegalArgumentException e) {
-            System.out.println("\nError: " + e.getMessage());
-        }
+        bogies.add(new Bogie("Cargo", 100));
+        log("Added Cargo bogie");
 
-        // Display valid bogies
-        System.out.println("\nValid Bogies:");
+        // Display bogies
+        System.out.println("\nCurrent Bogies:");
         for (Bogie b : bogies) {
             System.out.println(b.name + " -> " + b.capacity);
         }
 
+        log("Displayed all bogies");
+
+        System.out.println("\nLogs saved in train_log.txt");
         bogies.sort((a, b) -> b.capacity - a.capacity);
 
         System.out.println("\nSorted Bogies (High to Low Capacity):");
