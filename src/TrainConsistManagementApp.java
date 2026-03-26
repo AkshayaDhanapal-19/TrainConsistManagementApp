@@ -1,5 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
+class Bogie {
+    String name;
+    int capacity;
+
+    // Constructor
+    Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+}
 public class TrainConsistManagementApp {
     public static void main(String[] args) {
 
